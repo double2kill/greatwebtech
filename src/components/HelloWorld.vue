@@ -6,13 +6,13 @@
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
-    <h3>Essential Links</h3>
+    <h3>Greatwebtech Links</h3>
     <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
+      <li><a href="http://weather.greatwebtech.cn/#/weather" target="_blank" rel="noopener">weather</a></li>
+      <li><a href="http://weather.greatwebtech.cn/#/sshInfo" target="_blank" rel="noopener">sshInfo</a></li>
+      <li><a href="http://weather.greatwebtech.cn/#/list" target="_blank" rel="noopener">list</a></li>
+      <li><a href="http://weather.greatwebtech.cn/#/timeLine" target="_blank" rel="noopener">timeLine</a></li>
+      <li><a href="http://weather.greatwebtech.cn/#/todoList" target="_blank" rel="noopener">todoList</a></li>
     </ul>
     <h3>Ecosystem</h3>
     <ul>
