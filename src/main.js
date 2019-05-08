@@ -1,5 +1,7 @@
 import Vue from 'vue';
-import { Table, TableColumn } from 'element-ui';
+import {
+  Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message,
+} from 'element-ui';
 import App from './App.vue';
 import router from './router';
 
@@ -8,6 +10,14 @@ import router from './router';
 
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Input);
+Vue.use(Button);
+Vue.use(Option);
+Vue.use(Select);
+
+Vue.prototype.$message = Message;
 
 Vue.config.productionTip = false;
 
