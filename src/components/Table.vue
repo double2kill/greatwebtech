@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>欢迎使用线上查询系统！</h2>
-    <SearchForm />
+    <SearchForm/>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="slot" label="槽位" width="180"> </el-table-column>
       <el-table-column prop="test_site" label="测试站点" width="180">
@@ -11,6 +11,7 @@
       <el-table-column prop="product_model" label="产品型号"> </el-table-column>
       <el-table-column prop="serial_number" label="序列号"> </el-table-column>
       <el-table-column prop="mac" label="MAC地址"> </el-table-column>
+      <el-table-column prop="test_time" label="测试时间"> </el-table-column>
       <el-table-column prop="test_host" label="测试主机"> </el-table-column>
       <el-table-column prop="ate" label="ATE版本"> </el-table-column>
       <el-table-column prop="hardware_version" label="硬件版本">
@@ -27,43 +28,15 @@
 
 <script>
 import SearchForm from './SearchForm.vue';
+import axios from 'axios';
+import { SEARCH_ORIGIN } from '@/constants/url';
 
 export default {
+  created() {
+    this.searchData();
+  },
   data() {
-    const data = [
-      [
-        'Slot M1',
-        '下装主程序',
-        '以管理板为主',
-        'RG-IS2712G',
-        'G1MR13G00005B',
-        '58696CC7DE0A',
-        '2018-01-29 13:42:06.0',
-        'BFEBFBFF000506E3',
-        '1.00',
-        '1.05',
-        'RGOS 10.4(3b16)T16 Release(176668)',
-        '',
-        '10.4(3b16)T16 Release(176668)',
-        'PASS',
-      ],
-      [
-        'Slot M1',
-        '总检',
-        '以管理板为主',
-        'RG-IS2712G',
-        'G1MR13G00005B',
-        '58696CC7DE0A',
-        '2018-01-29 18:52:13.0',
-        'BFEBFBFF000506E3',
-        '1.10',
-        '1.05',
-        'RGOS 10.4(3b16)T16 Release(176668)',
-        '',
-        '10.4(3b16)T16 Release(176668)',
-        'PASS',
-      ],
-    ];
+    const data = [];
     return {
       tableData: data.map(item => ({
         slot: item[0],
@@ -81,6 +54,50 @@ export default {
         result: item[13],
       })),
     };
+  },
+  methods: {
+    async searchData(params) {
+      const newParams = params || {
+        Product_Type: 'ml_switch',
+        SN: '1234567890123',
+      };
+
+      let searchCondition = Object.entries(newParams)
+        .filter(([, value]) => !!value)
+        .map(([key, value]) => `${key}=${value}`)
+        .join(',');
+
+      searchCondition = searchCondition || Object.entries({
+        Product_Type: 'ml_switch',
+        SN: '1234567890123',
+      })
+        .filter(([, value]) => !!value)
+        .map(([key, value]) => `${key}=${value}`)
+        .join(',');
+      try {
+        const res = await axios.get(`${SEARCH_ORIGIN}searchdata?searchMode=ProductInfo&searchCondition=${searchCondition}`);
+        const data = res.data.map(item => ({
+          slot: item[0],
+          test_site: item[1],
+          test_requirement: item[2],
+          product_model: item[3],
+          serial_number: item[4],
+          mac: item[5],
+          test_time: item[6],
+          test_host: item[7],
+          ate: item[8],
+          hardware_version: item[9],
+          software_version: item[10],
+          software_serial: item[11],
+          boot_version: item[12],
+          result: item[13],
+        }));
+        this.tableData = data;
+      } catch (error) {
+        this.$message.error('数据出错了~');
+        this.tableData = [];
+      }
+    },
   },
   components: {
     SearchForm,
