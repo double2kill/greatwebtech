@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import {
   Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message,
+  DatePicker, TimePicker,
 } from 'element-ui';
 import App from './App.vue';
 import router from './router';
@@ -16,6 +17,8 @@ Vue.use(Input);
 Vue.use(Button);
 Vue.use(Option);
 Vue.use(Select);
+Vue.use(DatePicker);
+Vue.use(TimePicker);
 
 Vue.prototype.$message = Message;
 
