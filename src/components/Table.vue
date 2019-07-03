@@ -62,20 +62,19 @@ export default {
         SN: '1234567890123',
       };
 
-      let searchCondition = Object.entries(newParams)
-        .filter(([, value]) => !!value)
-        .map(([key, value]) => `${key}=${value}`)
-        .join(',');
+      Object.entries(newParams).forEach(([key, value]) => {
+        if (!value) {
+          delete newParams[key];
+        }
+      });
 
-      searchCondition = searchCondition || Object.entries({
-        Product_Type: 'ml_switch',
-        SN: '1234567890123',
-      })
-        .filter(([, value]) => !!value)
-        .map(([key, value]) => `${key}=${value}`)
-        .join(',');
       try {
-        const res = await axios.get(`${SEARCH_ORIGIN}searchdata?searchMode=ProductInfo&searchCondition=${searchCondition}`);
+        const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
+          params: {
+            searchMode: 'ProductInfo',
+            ...newParams,
+          },
+        });
         const data = res.data.map(item => ({
           slot: item[0],
           test_site: item[1],
