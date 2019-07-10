@@ -72,6 +72,8 @@ export default {
         const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
           params: {
             searchMode: 'ProductInfo',
+            Offset: 10,
+            Limit: 10,
             ...newParams,
           },
         });

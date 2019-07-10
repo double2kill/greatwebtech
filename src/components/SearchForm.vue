@@ -1,7 +1,7 @@
 <template>
   <el-form :inline="true" :model="formInline" class="demo-form-inline">
-    <el-form-item label="SN">
-      <el-input v-model="formInline.SN" placeholder="请输入SN"></el-input>
+    <el-form-item label="序列号">
+      <el-input v-model="formInline.SN" placeholder="请输入序列号"></el-input>
     </el-form-item>
     <el-form-item label="MAC">
       <el-input v-model="formInline.mac" placeholder="请输入MAC"></el-input>
@@ -38,13 +38,13 @@
       </el-select>
     </el-form-item>
     <el-form-item label="测试结果">
-      <el-select v-model="formInline.site" placeholder="全部">
+      <el-select v-model="formInline.result" placeholder="全部">
         <el-option label="全部" value></el-option>
-        <el-option label="通过" value="true"></el-option>
-        <el-option label="失败" value="false"></el-option>
+        <el-option label="通过" value="FAIL"></el-option>
+        <el-option label="失败" value="PASS"></el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="测试站点">
+    <el-form-item label="测试时间">
       <el-date-picker
         v-model="formInline.dateRange"
         type="datetimerange"
@@ -107,13 +107,16 @@ export default {
   methods: {
     onSubmit() {
       const {
-        SN, type, site, dateRange,
+        SN, mac, type, site, dateRange, serial, result,
       } = this.$data.formInline;
       const [start, end] = dateRange;
       this.$parent.searchData({
-        SN,
+        SN: SN && SN.trim(),
+        mac: mac && mac.trim(),
+        Product_Model: serial && serial.trim(),
         Product_Type: type,
         Product_Station: site,
+        TestResult: result,
         StartTime: start && start.valueOf(),
         EndTime: end && end.valueOf(),
       });
