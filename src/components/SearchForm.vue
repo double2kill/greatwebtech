@@ -1,9 +1,15 @@
 <template>
-  <el-form :inline="true" :model="formInline" class="demo-form-inline">
-    <el-form-item label="序列号">
+  <el-form
+    :inline="true"
+    :model="formInline"
+    :rules="rules"
+    ref="ruleForm"
+    class="demo-form-inline"
+  >
+    <el-form-item label="序列号" prop="SN" :rules="rules.SN">
       <el-input v-model="formInline.SN" placeholder="请输入序列号"></el-input>
     </el-form-item>
-    <el-form-item label="MAC">
+    <el-form-item label="MAC" prop="mac" :rules="rules.MAC">
       <el-input v-model="formInline.mac" placeholder="请输入MAC"></el-input>
     </el-form-item>
     <el-form-item label="产品型号">
@@ -57,7 +63,7 @@
       ></el-date-picker>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">查询</el-button>
+      <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -70,6 +76,32 @@ export default {
         user: '',
         region: '',
         dateRange: [],
+      },
+      rules: {
+        SN: [
+          {
+            validator(rule, value, callback) {
+              if (!value || value.length === 13) {
+                callback();
+              } else {
+                callback('请输入13位序列号');
+              }
+            },
+            trigger: 'blur',
+          },
+        ],
+        MAC: [
+          {
+            validator(rule, value, callback) {
+              if (!value || value.length === 12) {
+                callback();
+              } else {
+                callback('请输入12位MAC');
+              }
+            },
+            trigger: 'blur',
+          },
+        ],
       },
       pickerOptions: {
         shortcuts: [
@@ -105,20 +137,32 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      const {
-        SN, mac, type, site, dateRange, serial, result,
-      } = this.$data.formInline;
-      const [start, end] = dateRange;
-      this.$parent.searchData({
-        SN: SN && SN.trim(),
-        mac: mac && mac.trim(),
-        Product_Model: serial && serial.trim(),
-        Product_Type: type,
-        Product_Station: site,
-        TestResult: result,
-        StartTime: start && start.valueOf(),
-        EndTime: end && end.valueOf(),
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const {
+            SN,
+            mac,
+            type,
+            site,
+            dateRange,
+            serial,
+            result,
+          } = this.$data.formInline;
+          const [start, end] = dateRange;
+          this.$parent.searchData({
+            SN: SN && SN.trim(),
+            mac: mac && mac.trim(),
+            Product_Model: serial && serial.trim(),
+            Product_Type: type,
+            Product_Station: site,
+            TestResult: result,
+            StartTime: start && start.valueOf(),
+            EndTime: end && end.valueOf(),
+          });
+          return true;
+        }
+        return false;
       });
     },
   },

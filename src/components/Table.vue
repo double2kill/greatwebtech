@@ -1,8 +1,13 @@
 <template>
   <div>
     <h2>欢迎使用线上查询系统！</h2>
-    <SearchForm/>
-    <el-table :data="tableData" style="width: 100%">
+    <SearchForm />
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+    >
       <el-table-column prop="slot" label="槽位" width="180"> </el-table-column>
       <el-table-column prop="test_site" label="测试站点" width="180">
       </el-table-column>
@@ -53,20 +58,25 @@ export default {
         boot_version: item[12],
         result: item[13],
       })),
+      loading: false,
     };
   },
   methods: {
     async searchData(params) {
-      const newParams = params || {
-        Product_Type: 'ml_switch',
-        SN: '1234567890123',
-      };
+      const newParams = params || {};
 
       Object.entries(newParams).forEach(([key, value]) => {
         if (!value) {
           delete newParams[key];
         }
       });
+
+      if (this.loading) {
+        this.$message('正在查询中');
+        return;
+      }
+
+      this.loading = true;
 
       try {
         const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
@@ -96,8 +106,8 @@ export default {
         this.tableData = data;
       } catch (error) {
         this.$message.error('数据出错了~');
-        this.tableData = [];
       }
+      this.loading = false;
     },
   },
   components: {

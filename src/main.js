@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {
-  Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message,
+  Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message, Loading,
   DatePicker, TimePicker,
 } from 'element-ui';
 import App from './App.vue';
@@ -20,6 +20,9 @@ Vue.use(Select);
 Vue.use(DatePicker);
 Vue.use(TimePicker);
 
+Vue.use(Loading.directive);
+
+Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
 
 Vue.config.productionTip = false;
