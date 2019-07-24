@@ -155,7 +155,7 @@ export default {
             mac: mac && mac.trim(),
             Product_Model: serial && serial.trim(),
             Product_Type: type,
-            Product_Station: site,
+            Test_Station: site,
             TestResult: result,
             StartTime: start && start.valueOf(),
             EndTime: end && end.valueOf(),

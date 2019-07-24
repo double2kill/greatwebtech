@@ -7,6 +7,7 @@
       style="width: 100%"
       v-loading="loading"
       element-loading-text="拼命加载中"
+      @row-dblclick="handleClick"
     >
       <el-table-column prop="slot" label="槽位" width="180"> </el-table-column>
       <el-table-column prop="test_site" label="测试站点" width="180">
@@ -82,8 +83,8 @@ export default {
         const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
           params: {
             searchMode: 'ProductInfo',
-            Offset: 10,
-            Limit: 10,
+            Offset: 0,
+            Limit: 50,
             ...newParams,
           },
         });
@@ -108,6 +109,14 @@ export default {
         this.$message.error('数据出错了~');
       }
       this.loading = false;
+    },
+    handleClick(row) {
+      const { slot, test_host, test_time } = row;
+      this.$message(
+        `你双击这行，槽位为${slot},测试主机为${test_host}, 测试时间为${new Date(
+          test_time,
+        ).valueOf()}`,
+      );
     },
   },
   components: {
