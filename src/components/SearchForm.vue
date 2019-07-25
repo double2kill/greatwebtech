@@ -46,8 +46,8 @@
     <el-form-item label="测试结果">
       <el-select v-model="formInline.result" placeholder="全部">
         <el-option label="全部" value></el-option>
-        <el-option label="通过" value="FAIL"></el-option>
-        <el-option label="失败" value="PASS"></el-option>
+        <el-option label="通过" value="PASS"></el-option>
+        <el-option label="失败" value="FAIL"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="测试时间">
@@ -152,7 +152,7 @@ export default {
           const [start, end] = dateRange;
           this.$parent.searchData({
             SN: SN && SN.trim(),
-            mac: mac && mac.trim(),
+            MAC: mac && mac.trim(),
             Product_Model: serial && serial.trim(),
             Product_Type: type,
             Test_Station: site,
