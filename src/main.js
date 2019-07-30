@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import {
   Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message, Loading,
-  DatePicker, TimePicker,
+  DatePicker, TimePicker, Card,
 } from 'element-ui';
 import App from './App.vue';
 import router from './router';
@@ -19,6 +19,7 @@ Vue.use(Option);
 Vue.use(Select);
 Vue.use(DatePicker);
 Vue.use(TimePicker);
+Vue.use(Card);
 
 Vue.use(Loading.directive);
 

@@ -140,7 +140,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const {
+          let {
             SN,
             mac,
             type,
@@ -149,6 +149,8 @@ export default {
             serial,
             result,
           } = this.$data.formInline;
+          // fix dateRange is null
+          dateRange = dateRange || []
           const [start, end] = dateRange;
           this.$parent.searchData({
             SN: SN && SN.trim(),
