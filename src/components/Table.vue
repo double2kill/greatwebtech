@@ -161,7 +161,9 @@ export default {
 }
 .box-card {
   width: 30%;
+  max-height: 700px;
   margin-left: 5%;
+  overflow-y: auto;
 }
 .content {
   white-space: pre-line;
