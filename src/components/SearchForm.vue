@@ -150,7 +150,7 @@ export default {
             result,
           } = this.$data.formInline;
           // fix dateRange is null
-          dateRange = dateRange || []
+          dateRange = dateRange || [];
           const [start, end] = dateRange;
           this.$parent.searchData({
             SN: SN && SN.trim(),
