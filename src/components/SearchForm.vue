@@ -170,3 +170,11 @@ export default {
   },
 };
 </script>
+<style>
+.demo-form-inline .el-input {
+  width: 150px;
+}
+.demo-form-inline .el-select>.el-input {
+  width: 150px;
+}
+</style>

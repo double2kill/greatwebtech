@@ -28,8 +28,14 @@
       </el-table>
     </div>
     <el-card class="box-card" v-loading="contentLoading">
-      <h2>{{log.title}}</h2>
-      <p class='content'>{{log.content}}</p>
+      <strong>{{log.title}}</strong>
+      <el-input
+        readonly
+        type="textarea"
+        :rows="27"
+        placeholder="双击某一行查看日志"
+        v-model="log.content">
+      </el-input>
     </el-card>
   </div>
 </template>
@@ -140,7 +146,7 @@ export default {
         const [[log]] = res.data;
         this.contentLoading = false;
 
-        this.log.content = log;
+        this.log.content = log.replace(/\r/g, '\n').replace();
       } catch (error) {
         this.contentLoading = false;
         this.$message.error('数据出错了~');
@@ -156,16 +162,16 @@ export default {
 .container {
   display: flex;
 }
+.container .el-textarea {
+  margin-top: 10px;
+}
 .left-box {
-  width: 60%;
+  margin-left: 1%;
+  width: 66%;
 }
 .box-card {
   width: 30%;
-  max-height: 700px;
-  margin-left: 5%;
+  margin-left: 2%;
   overflow-y: auto;
-}
-.content {
-  white-space: pre-line;
 }
 </style>
