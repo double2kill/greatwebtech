@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import {
+  Dropdown, DropdownMenu, DropdownItem,
   Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message, Loading,
   DatePicker, TimePicker, Card,
 } from 'element-ui';
@@ -20,6 +21,9 @@ Vue.use(Select);
 Vue.use(DatePicker);
 Vue.use(TimePicker);
 Vue.use(Card);
+Vue.use(Dropdown);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
 
 Vue.use(Loading.directive);
 

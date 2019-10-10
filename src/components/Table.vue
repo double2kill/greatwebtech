@@ -13,28 +13,64 @@
       >
         <el-table-column prop="slot" label="槽位"></el-table-column>
         <el-table-column prop="test_site" label="测试站点"></el-table-column>
-        <el-table-column prop="test_requirement" label="测试需求"></el-table-column>
-        <el-table-column prop="product_model" label="产品型号"></el-table-column>
+        <el-table-column
+          prop="test_requirement"
+          label="测试需求"
+        ></el-table-column>
+        <el-table-column
+          prop="product_model"
+          label="产品型号"
+        ></el-table-column>
         <el-table-column prop="serial_number" label="序列号"></el-table-column>
         <el-table-column prop="mac" label="MAC地址"></el-table-column>
         <el-table-column prop="test_time" label="测试时间"></el-table-column>
         <el-table-column prop="test_host" label="测试主机"></el-table-column>
         <el-table-column prop="ate" label="ATE版本"></el-table-column>
-        <el-table-column prop="hardware_version" label="硬件版本"></el-table-column>
-        <el-table-column prop="software_version" label="软件版本 "></el-table-column>
-        <el-table-column prop="software_serial" label="软件序号"></el-table-column>
+        <el-table-column
+          prop="hardware_version"
+          label="硬件版本"
+        ></el-table-column>
+        <el-table-column
+          prop="software_version"
+          label="软件版本 "
+        ></el-table-column>
+        <el-table-column
+          prop="software_serial"
+          label="软件序号"
+        ></el-table-column>
         <el-table-column prop="boot_version" label="BOOT版本"></el-table-column>
         <el-table-column prop="result" label="测试结果"></el-table-column>
       </el-table>
     </div>
-    <el-card class="box-card" v-loading="contentLoading">
-      <strong>{{log.title}}</strong>
+    <el-card class="box-card" v-loading="log.loading">
+      <div slot="header">
+        <span>{{ log.title }}</span>
+        <el-dropdown
+          style="float: right; padding: 3px 0"
+          placement="bottom"
+          @command="handleCommand"
+        >
+          <span class="el-dropdown-link">
+            <i class="el-icon-more"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item
+              command="download"
+              icon="el-icon-download"
+              :disabled="log.content === ''"
+            >
+              下载
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
       <el-input
         readonly
         type="textarea"
         :rows="27"
         placeholder="双击某一行查看日志"
-        v-model="log.content">
+        v-model="log.content"
+      >
       </el-input>
     </el-card>
   </div>
@@ -69,13 +105,34 @@ export default {
         result: item[13],
       })),
       loading: false,
-      contentLoading: false,
       log: {
+        loading: false,
         title: '日志',
+        content: '',
       },
+      selectedRow: undefined,
     };
   },
   methods: {
+    handleCommand(command) {
+      switch (command) {
+        case 'download':
+          if (this.selectedRow) {
+            const log = this.log.content;
+            const { test_time, serial_number } = this.selectedRow;
+            const isWin = navigator.platform === 'Win32'
+              || navigator.platform === 'Windows';
+            const blobLog = isWin ? log.replace(/\n/g, '\r\n') : log;
+            const name = `log-${serial_number}-${test_time}`;
+            const suffix = 'txt';
+            downloadData(blobLog, `${name}.${suffix}`);
+          }
+          break;
+
+        default:
+          break;
+      }
+    },
     async searchData(params) {
       const newParams = params || {};
 
@@ -128,11 +185,11 @@ export default {
         slot, test_host, test_time, serial_number,
       } = row;
 
-      if (this.contentLoading) {
+      if (this.log.loading) {
         return;
       }
 
-      this.contentLoading = true;
+      this.log.loading = true;
 
       try {
         const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
@@ -145,16 +202,12 @@ export default {
           },
         });
         const [[log]] = res.data;
-        this.contentLoading = false;
+        this.log.loading = false;
 
         this.log.content = log.replace(/\r/g, '\n');
-        const isWin = (navigator.platform === 'Win32') || (navigator.platform === 'Windows');
-        const blobLog = isWin ? log.replace(/\n/g, '\r\n') : log;
-        const name = `log-${serial_number}-${test_time}`;
-        const suffix = 'txt';
-        downloadData(blobLog, `${name}.${suffix}`);
+        this.selectedRow = row;
       } catch (error) {
-        this.contentLoading = false;
+        this.log.loading = false;
         this.$message.error('数据出错了~');
       }
     },
