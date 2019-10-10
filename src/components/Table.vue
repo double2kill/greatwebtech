@@ -44,6 +44,7 @@
 import SearchForm from './SearchForm.vue';
 import axios from 'axios';
 import { SEARCH_ORIGIN } from '@/constants/url';
+import downloadData from '@/utils/downloadData';
 
 export default {
   created() {
@@ -124,7 +125,7 @@ export default {
     },
     async handleClick(row) {
       const {
-        slot, test_host, test_time, SN,
+        slot, test_host, test_time, serial_number,
       } = row;
 
       if (this.contentLoading) {
@@ -137,16 +138,21 @@ export default {
         const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
           params: {
             searchMode: 'Log',
-            SN,
+            SN: serial_number,
             PC_Name: test_host,
             Record_Time: new Date(test_time).valueOf(),
+            Slot: slot,
           },
         });
-
         const [[log]] = res.data;
         this.contentLoading = false;
 
-        this.log.content = log.replace(/\r/g, '\n').replace();
+        this.log.content = log.replace(/\r/g, '\n');
+        const isWin = (navigator.platform === 'Win32') || (navigator.platform === 'Windows');
+        const blobLog = isWin ? log.replace(/\n/g, '\r\n') : log;
+        const name = `log-${serial_number}-${test_time}`;
+        const suffix = 'txt';
+        downloadData(blobLog, `${name}.${suffix}`);
       } catch (error) {
         this.contentLoading = false;
         this.$message.error('数据出错了~');
