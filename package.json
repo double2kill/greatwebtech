@@ -11,6 +11,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
+    "default-passive-events": "^1.0.10",
+    "el-table-infinite-scroll": "^0.1.0",
     "element-ui": "^2.8.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"

@@ -152,7 +152,9 @@ export default {
           // fix dateRange is null
           dateRange = dateRange || [];
           const [start, end] = dateRange;
-          this.$parent.searchData({
+          const parent = this.$parent.$parent.$parent
+          
+          parent.searchData({
             SN: SN && SN.trim(),
             MAC: mac && mac.trim(),
             Product_Model: serial && serial.trim(),
