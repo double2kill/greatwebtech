@@ -46,24 +46,30 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <el-input readonly type="textarea" :rows="27" placeholder="双击某一行查看日志" v-model="log.content"></el-input>
+      <el-input
+        readonly
+        type="textarea"
+        :rows="27"
+        placeholder="双击某一行查看日志"
+        v-model="log.content">
+      </el-input>
     </el-card>
   </div>
 </template>
 
 <script>
-import SearchForm from "./SearchForm.vue";
-import axios from "axios";
-import { SEARCH_ORIGIN } from "@/constants/url";
-import downloadData from "@/utils/downloadData";
+import axios from 'axios';
+import { SEARCH_ORIGIN } from '@/constants/url';
+import downloadData from '@/utils/downloadData';
 import elTableInfiniteScroll from 'el-table-infinite-scroll';
+import SearchForm from './SearchForm.vue';
 
 export default {
   created() {
     this.searchData();
   },
   directives: {
-    'el-table-infinite-scroll': elTableInfiniteScroll
+    'el-table-infinite-scroll': elTableInfiniteScroll,
   },
   data() {
     const data = [];
@@ -81,25 +87,39 @@ export default {
         software_version: item[9],
         software_serial: item[10],
         boot_version: item[12],
-        result: item[13]
+        result: item[13],
       })),
       loading: false,
       log: {
         loading: false,
-        title: "日志",
-        content: ""
+        title: '日志',
+        content: '',
       },
       selectedRow: undefined,
-      activeNames: []
+      activeNames: [],
+      pagination: {
+        offset: 0,
+        limit: 10,
+        noMore: false,
+      },
+      searchParams: {},
     };
   },
   methods: {
     load() {
-      console.log("TODO: load more")
+      if (this.pagination.noMore) {
+        this.$message('无更多数据');
+        return;
+      }
+      if (!this.loading) {
+        this.pagination.offset = this.pagination.offset + this.pagination.limit;
+        this.searchData();
+        console.log('TODO: load more');
+      }
     },
     handleCommand(command) {
       switch (command) {
-        case "download":
+        case 'download':
           if (this.selectedRow) {
             const log = this.log.content;
             const {
@@ -109,15 +129,13 @@ export default {
               test_site,
               mac,
               result,
-              test_requirement
+              test_requirement,
             } = this.selectedRow;
-            debugger;
-            const isWin =
-              navigator.platform === "Win32" ||
-              navigator.platform === "Windows";
-            const blobLog = isWin ? log.replace(/\n/g, "\r\n") : log;
+            const isWin = navigator.platform === 'Win32'
+              || navigator.platform === 'Windows';
+            const blobLog = isWin ? log.replace(/\n/g, '\r\n') : log;
             const name = `${product_model}_${test_site}_${test_requirement}_${serial_number}_${mac}_${result}_${test_time}`;
-            const suffix = "txt";
+            const suffix = 'txt';
             downloadData(blobLog, `${name}.${suffix}`);
           }
           break;
@@ -126,30 +144,35 @@ export default {
           break;
       }
     },
-    async searchData(params) {
-      const newParams = params || {};
-
-      Object.entries(newParams).forEach(([key, value]) => {
-        if (!value) {
-          delete newParams[key];
-        }
-      });
-
+    setSearchParams(params) {
+      let newParams;
+      if (params) {
+        newParams = { ...params } || {};
+        Object.entries(newParams).forEach(([key, value]) => {
+          if (!value) {
+            delete newParams[key];
+          }
+        });
+      }
+      this.pagination.noMore = false;
+      this.pagination.offset = 0;
+      this.searchParams = newParams;
+      this.searchData();
+    },
+    async searchData() {
       if (this.loading) {
-        this.$message("正在查询中");
+        this.$message('正在查询中');
         return;
       }
-
       this.loading = true;
-
       try {
         const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
           params: {
-            searchMode: "ProductInfo",
-            Offset: 0,
-            Limit: 50,
-            ...newParams
-          }
+            searchMode: 'ProductInfo',
+            Offset: this.pagination.offset,
+            Limit: this.pagination.limit,
+            ...this.searchParams,
+          },
         });
         const data = res.data.map(item => ({
           slot: item[0],
@@ -165,16 +188,27 @@ export default {
           software_version: item[10],
           software_serial: item[11],
           boot_version: item[12],
-          result: item[13]
+          result: item[13],
         }));
-        this.tableData = data;
+        if (this.pagination.offset === 0) {
+          this.tableData = data;
+        } else {
+          this.tableData = this.tableData.concat(data);
+        }
+
+        if (data.length === 0) {
+          this.$message('无更多数据');
+          this.pagination.noMore = true;
+        }
       } catch (error) {
-        this.$message.error("数据出错了~");
+        this.$message.error('数据出错了~');
       }
       this.loading = false;
     },
     async handleClick(row) {
-      const { slot, test_host, test_time, serial_number } = row;
+      const {
+        slot, test_host, test_time, serial_number,
+      } = row;
 
       if (this.log.loading) {
         return;
@@ -185,27 +219,27 @@ export default {
       try {
         const res = await axios.get(`${SEARCH_ORIGIN}searchdata`, {
           params: {
-            searchMode: "Log",
+            searchMode: 'Log',
             SN: serial_number,
             PC_Name: test_host,
             Record_Time: new Date(test_time).valueOf(),
-            Slot: slot
-          }
+            Slot: slot,
+          },
         });
         const [[log]] = res.data;
         this.log.loading = false;
 
-        this.log.content = log.replace(/\r/g, "\n");
+        this.log.content = log.replace(/\r/g, '\n');
         this.selectedRow = row;
       } catch (error) {
         this.log.loading = false;
-        this.$message.error("数据出错了~");
+        this.$message.error('数据出错了~');
       }
-    }
+    },
   },
   components: {
-    SearchForm
-  }
+    SearchForm,
+  },
 };
 </script>
 <style scoped>

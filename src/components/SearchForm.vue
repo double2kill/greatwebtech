@@ -140,21 +140,21 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let {
+          const {
             SN,
             mac,
             type,
             site,
-            dateRange,
             serial,
             result,
           } = this.$data.formInline;
+          let { dateRange } = this.$data.formInline;
           // fix dateRange is null
           dateRange = dateRange || [];
           const [start, end] = dateRange;
-          const parent = this.$parent.$parent.$parent
-          
-          parent.searchData({
+          const parent = this.$parent.$parent.$parent;
+
+          parent.setSearchParams({
             SN: SN && SN.trim(),
             MAC: mac && mac.trim(),
             Product_Model: serial && serial.trim(),
