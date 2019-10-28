@@ -48,6 +48,13 @@ npm run test:unit
 ```
 window.CONFIG = {
   SEARCH_ORIGIN: 'http://www.greatwebtech.cn/search/',
-  type: 'only-search',
+  TYPE: 'only-search',
 };
 ```
+
+## CONFIG
+
+SEARCH_ORIGIN 搜索的后端接口地址
+
+TYPE only-search 只有搜索的路由
+TYPE 其他值 是包括 home about table 路由

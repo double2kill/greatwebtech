@@ -1,13 +1,22 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { TYPE } from '@/constants/url';
 import Home from './views/Home.vue';
 
 Vue.use(Router);
 
-export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
+let routes;
+
+if (TYPE === 'only-search') {
+  routes = [
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('./views/Table.vue'),
+    },
+  ];
+} else {
+  routes = [
     {
       path: '/',
       name: 'home',
@@ -26,5 +35,11 @@ export default new Router({
       name: 'table',
       component: () => import('./views/Table.vue'),
     },
-  ],
+  ];
+}
+
+export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
 });

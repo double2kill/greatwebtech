@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" v-if="showNav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/table">Table</router-link>
@@ -8,6 +8,18 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+import { TYPE } from '@/constants/url';
+
+export default {
+  data() {
+    return {
+      showNav: TYPE !== 'only-search',
+    };
+  },
+};
+</script>
 
 <style>
 body {
