@@ -41,4 +41,13 @@ npm run test:unit
 5. you could see a latest `dist/` folder
 6. copy `dist/*` to `nginx/html/*`
 
-If you want to seperate some config from project, let me know.
+## Set env config after build
+
+1. modify `dist/config.js` and then copy to your server html dir
+
+```
+window.CONFIG = {
+  SEARCH_ORIGIN: 'http://www.greatwebtech.cn/search/',
+  type: 'only-search',
+};
+```
