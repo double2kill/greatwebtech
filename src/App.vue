@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { TYPE } from '@/constants/url';
+import { TYPE } from '@/constants/config';
 
 export default {
   data() {

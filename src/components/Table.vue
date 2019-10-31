@@ -9,6 +9,7 @@
       <el-table
         border
         :data="tableData"
+        :key="tableKey"
         height="500"
         width="100%"
         v-loading="loading"
@@ -23,7 +24,13 @@
         <el-table-column prop="serial_number" label="序列号" width="160"></el-table-column>
         <el-table-column prop="mac" label="MAC地址" width="160"></el-table-column>
         <el-table-column prop="test_time" label="测试时间" width="180"></el-table-column>
-        <el-table-column prop="result" label="测试结果"></el-table-column>
+        <el-table-column prop="result" label="测试结果">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.result === 'PASS' ? 'success' : 'danger'"
+              disable-transitions>{{scope.row.result === 'PASS' ? '成功' :'失败'}}</el-tag>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <el-card class="box-card" v-loading="log.loading">
@@ -59,14 +66,22 @@
 
 <script>
 import axios from 'axios';
-import { SEARCH_ORIGIN } from '@/constants/url';
+import { SEARCH_ORIGIN, LOAD_DATA_ENTER_PAGE } from '@/constants/config';
 import downloadData from '@/utils/downloadData';
 import elTableInfiniteScroll from 'el-table-infinite-scroll';
 import SearchForm from './SearchForm.vue';
 
+const initPaginationInfo = {
+  offset: 0,
+  limit: 50,
+  noMore: false,
+};
+
 export default {
   created() {
-    this.searchData();
+    if (LOAD_DATA_ENTER_PAGE) {
+      this.searchData();
+    }
   },
   directives: {
     'el-table-infinite-scroll': elTableInfiniteScroll,
@@ -96,23 +111,28 @@ export default {
         content: '',
       },
       selectedRow: undefined,
-      activeNames: [],
-      pagination: {
-        offset: 0,
-        limit: 10,
-        noMore: false,
-      },
+      activeNames: ['1'],
+      pagination: initPaginationInfo,
       searchParams: {},
+      tableKey: new Date().valueOf(),
     };
   },
   methods: {
     load() {
+      if (this.tableData.length === 0) {
+        // 无数据时不加载数据，必须通过 search 触发一次后才能调用 load
+        return;
+      }
       if (this.pagination.noMore) {
         this.$message('无更多数据');
         return;
       }
       if (!this.loading) {
-        this.pagination.offset = this.pagination.offset + this.pagination.limit;
+        this.pagination = {
+          offset: this.pagination.offset + this.pagination.limit,
+          limit: 10,
+        };
+        this.pagination.limit = 10;
         this.searchData();
         console.log('TODO: load more');
       }
@@ -154,9 +174,9 @@ export default {
           }
         });
       }
-      this.pagination.noMore = false;
-      this.pagination.offset = 0;
+      this.pagination = initPaginationInfo;
       this.searchParams = newParams;
+      this.tableKey = new Date().valueOf();
       this.searchData();
     },
     async searchData() {

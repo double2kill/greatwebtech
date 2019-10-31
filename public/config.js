@@ -1,5 +1,8 @@
 window.CONFIG = {
   SEARCH_ORIGIN: 'http://www.greatwebtech.cn/search/',
-  TYPE: 'greatwebtech',
+  // SEARCH_ORIGIN: backend url,
+  TYPE: 'have-home',
   // TYPE: 'only-search',
+  LOAD_DATA_ENTER_PAGE: false,
+  // LOAD_DATA_ENTER_PAGE: false,
 };

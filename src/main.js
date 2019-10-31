@@ -4,6 +4,7 @@ import {
   Collapse, CollapseItem,
   Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message, Loading,
   DatePicker, TimePicker, Card,
+  Tag,
 } from 'element-ui';
 import App from './App.vue';
 import router from './router';
@@ -28,6 +29,7 @@ Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Collapse);
 Vue.use(CollapseItem);
+Vue.use(Tag);
 
 Vue.use(Loading.directive);
 
