@@ -5,6 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:greatwebtech": "cp env/greatwebtech.js public/config.js && vue-cli-service build",
+    "build:product": "cp env/product.js public/config.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
