@@ -9,6 +9,7 @@ import {
 import App from './App.vue';
 import router from './router';
 import 'default-passive-events';
+import 'element-ui/lib/theme-chalk/index.css';
 
 
 // elementUI
