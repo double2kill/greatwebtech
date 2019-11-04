@@ -5,11 +5,17 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:greatwebtech": "cp env/greatwebtech.js public/config.js && vue-cli-service build",
+    "build:product": "cp env/product.js public/config.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "axios": "^0.18.1",
     "core-js": "^2.6.5",
+    "default-passive-events": "^1.0.10",
+    "el-table-infinite-scroll": "^0.1.0",
+    "element-ui": "^2.8.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"
   },

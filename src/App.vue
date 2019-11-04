@@ -1,14 +1,31 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" v-if="showNav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/table">Table</router-link>
     </div>
     <router-view/>
   </div>
 </template>
 
+<script>
+import { TYPE } from '@/constants/config';
+
+export default {
+  data() {
+    return {
+      showNav: TYPE !== 'only-search',
+    };
+  },
+};
+</script>
+
 <style>
+body {
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
