@@ -1,8 +1,8 @@
 <template>
-  <div class="home">
+  <main class="home">
     <img alt="Vue logo" :src="logoSrc">
     <HelloWorld msg="Welcome to www.greatwebtech.cn"/>
-  </div>
+  </main>
 </template>
 
 <script>

@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div id="nav" v-if="showNav">
+    <nav id="nav" v-if="showNav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/table">Table</router-link>
-    </div>
+    </nav>
     <router-view/>
   </div>
 </template>

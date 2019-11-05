@@ -1,7 +1,8 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h3>Links</h3>
+    <h1>Home</h1>
+    <p>{{ msg }}</p>
+    <h2>Links</h2>
     <ul>
       <!-- <li><a href="http://weather.greatwebtech.cn/weather" target="_blank" rel="noopener">weather</a></li> -->
       <li><a href="http://weather.greatwebtech.cn/sshInfo" target="_blank" rel="noopener">sshInfo</a></li>
@@ -23,7 +24,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
+h2 {
   margin: 40px 0 0;
 }
 ul {

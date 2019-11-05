@@ -37,8 +37,9 @@
       <div slot="header">
         <span>{{ log.title }}</span>
         <el-dropdown
-          style="float: right; padding: 3px 0"
+          style="float: right; padding: 3px 0; cursor: pointer;"
           placement="bottom"
+          trigger="click"
           @command="handleCommand"
         >
           <span class="el-dropdown-link">
