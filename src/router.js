@@ -38,6 +38,12 @@ if (TYPE === 'only-search') {
   ];
 }
 
+routes.push({
+  path: '/login',
+  name: 'login',
+  component: () => import('./views/Login.vue'),
+});
+
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
