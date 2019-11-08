@@ -9,6 +9,7 @@
       <li><a href="http://weather.greatwebtech.cn/list" target="_blank" rel="noopener">list</a></li>
       <li><a href="http://weather.greatwebtech.cn/timeline" target="_blank" rel="noopener">timeLine</a></li>
       <li><a href="http://weather.greatwebtech.cn/todoList" target="_blank" rel="noopener">todoList</a></li>
+      <li><a href="http://code-craft.greatwebtech.cn" target="_blank" rel="noopener">code-craft</a></li>
     </ul>
   </div>
 </template>
