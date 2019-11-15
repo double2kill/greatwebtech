@@ -71,6 +71,7 @@ import { SEARCH_ORIGIN, LOAD_DATA_ENTER_PAGE } from '@/constants/config';
 import downloadData from '@/utils/downloadData';
 import elTableInfiniteScroll from 'el-table-infinite-scroll';
 import SearchForm from './SearchForm.vue';
+import checkLogin from '@/utils/checkLogin';
 
 const initPaginationInfo = {
   offset: 0,
@@ -80,6 +81,15 @@ const initPaginationInfo = {
 
 export default {
   created() {
+    const username = localStorage.getItem('username');
+    const password = localStorage.getItem('password');
+    if (!checkLogin(username, password)) {
+      this.$message.error('You need login first!');
+      setTimeout(() => {
+        this.$router.push('/login');
+      }, 500);
+      return;
+    }
     if (LOAD_DATA_ENTER_PAGE) {
       this.searchData();
     }

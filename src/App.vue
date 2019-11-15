@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <nav id="nav" v-if="showNav">
+      <div v-if="username">hello, <strong class="username">{{username}}</strong></div>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/table">Table</router-link> |
@@ -17,6 +18,7 @@ export default {
   data() {
     return {
       showNav: TYPE !== 'only-search',
+      username: localStorage.getItem('username'),
     };
   },
 };
@@ -44,6 +46,9 @@ body {
 }
 
 #nav a.router-link-exact-active {
+  color: #42b983;
+}
+#nav .username {
   color: #42b983;
 }
 </style>

@@ -45,14 +45,12 @@
 </template>
 
 <script>
+import checkLogin from '@/utils/checkLogin';
+
 export default {
   name: 'login',
   data() {
     return {
-      validCredentials: {
-        username: 'liuchen',
-        password: 'Abc123456789',
-      },
       model: {
         username: '',
         password: '',
@@ -96,11 +94,16 @@ export default {
       this.loading = true;
       await this.simulateLogin();
       this.loading = false;
-      if (
-        this.model.username === this.validCredentials.username
-        && this.model.password === this.validCredentials.password
-      ) {
+      const { username, password } = this.model;
+
+      const isLogin = checkLogin(username, password);
+
+      if (isLogin) {
         this.$message.success('登陆成功');
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+        // TODO fix push for production env.
+        this.$router.push('/table');
       } else {
         this.$message.error('登陆失败');
       }
