@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav id="nav" v-if="showNav">
-      <div v-if="username">Hello, <strong class="username">{{username}}!</strong></div>
+      <div v-if="username">Hello, <strong class="username">{{username}}</strong>!</div>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/table">Table</router-link> |
