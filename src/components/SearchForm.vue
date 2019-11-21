@@ -8,7 +8,7 @@
   >
     <div class="simple-search">
       <el-form-item label="序列号" prop="SN" :rules="rules.SN">
-        <el-input v-model="formInline.SN" placeholder="请输入序列号"></el-input>
+        <el-input v-model="formInline.SN" placeholder="请输入13位序列号"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
@@ -22,10 +22,10 @@
     <transition name="advance-box">
       <div v-if="state.showAdvance">
         <el-form-item label="MAC" prop="mac" :rules="rules.MAC">
-          <el-input v-model="formInline.mac" placeholder="请输入MAC"></el-input>
+          <el-input v-model="formInline.mac" placeholder="请输入12位MAC"></el-input>
         </el-form-item>
         <el-form-item label="产品型号">
-          <el-input v-model="formInline.serial" placeholder="产品型号"></el-input>
+          <el-input v-model="formInline.serial"></el-input>
         </el-form-item>
         <el-form-item label="产品类型">
           <el-select v-model="formInline.type" placeholder="全部">
@@ -40,7 +40,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="测试站点">
-          <el-select v-model="formInline.site" placeholder="全部">
+          <el-select
+            v-model="formInline.site"
+            placeholder="全部 (可输入)"
+            filterable
+            allow-create
+            default-first-option
+          >
             <el-option label="全部" value></el-option>
             <el-option label="SETMAC" value="SETMAC"></el-option>
             <el-option label="基本测试" value="基本测试"></el-option>

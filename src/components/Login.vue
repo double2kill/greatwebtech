@@ -132,7 +132,7 @@ export default {
   margin-top: 10px;
 }
 </style>
-<style lang="scss">
+<style>
 .login .el-input__prefix {
   background: rgb(238, 237, 234);
   left: 0;
@@ -140,9 +140,9 @@ export default {
   left: 1px;
   top: 1px;
   border-radius: 3px;
-  .el-input__icon {
-    width: 30px;
-  }
+}
+.login .el-input__prefix .el-input__icon {
+  width: 30px;
 }
 .login .el-input input {
   padding-left: 35px;
