@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item class="search-more">
         <el-button type="text" @click="toggleSearchForm">
-          高级搜素 <i class="el-icon-arrow-down" :class="{ 'is-active': state.showAdvance }"/>
+          高级搜素 <i class="el-icon-arrow-right" :class="{ 'is-active': state.showAdvance }"/>
         </el-button>
       </el-form-item>
     </div>
@@ -204,11 +204,11 @@ export default {
   margin-left: auto;
   margin-right: 5px;
 }
-.demo-form-inline .simple-search .el-icon-arrow-down {
+.demo-form-inline .simple-search .el-icon-arrow-right {
   transition: transform .5s;
 }
-.demo-form-inline .simple-search .el-icon-arrow-down.is-active {
-  transform: rotate(-90deg);
+.demo-form-inline .simple-search .el-icon-arrow-right.is-active {
+  transform: rotate(90deg);
 }
 .demo-form-inline .el-input {
   width: 150px;
