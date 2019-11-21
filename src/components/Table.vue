@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <div class="left-box">
-      <el-collapse v-model="activeNames" style="margin-bottom: 15px">
-        <el-collapse-item title="搜索" name="1">
-          <searchForm />
-        </el-collapse-item>
-      </el-collapse>
+      <searchForm />
       <el-table
         border
         :data="tableData"
@@ -112,7 +108,6 @@ export default {
         content: '',
       },
       selectedRow: undefined,
-      activeNames: ['1'],
       pagination: initPaginationInfo,
       searchParams: {},
       tableKey: new Date().valueOf(),
