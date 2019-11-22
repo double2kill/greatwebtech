@@ -1,86 +1,107 @@
 <template>
   <el-form
-    :inline="true"
     :model="formInline"
     :rules="rules"
+    label-position="right"
+    label-width="80px"
     ref="ruleForm"
     class="demo-form-inline"
   >
     <div class="simple-search">
       <el-form-item label="序列号" prop="SN" :rules="rules.SN">
-        <el-input v-model="formInline.SN" placeholder="请输入13位序列号"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
+        <el-input v-model="formInline.SN" placeholder="请输入13位序列号" clearable></el-input>
+        <transition name="button">
+          <el-button v-if="!state.showAdvance" type="primary" @click="submitForm('ruleForm')">
+            查询
+            </el-button>
+        </transition>
       </el-form-item>
       <el-form-item class="search-more">
         <el-button type="text" @click="toggleSearchForm">
-          高级搜素 <i class="el-icon-arrow-right" :class="{ 'is-active': state.showAdvance }"/>
+          高级搜素
+          <i class="el-icon-arrow-right" :class="{ 'is-active': state.showAdvance }" />
         </el-button>
       </el-form-item>
     </div>
     <transition name="advance-box">
-      <div v-if="state.showAdvance">
-        <el-form-item label="MAC" prop="mac" :rules="rules.MAC">
-          <el-input v-model="formInline.mac" placeholder="请输入12位MAC"></el-input>
-        </el-form-item>
-        <el-form-item label="产品型号">
-          <el-input v-model="formInline.serial"></el-input>
-        </el-form-item>
-        <el-form-item label="产品类型">
-          <el-select v-model="formInline.type" placeholder="全部">
-            <el-option label="全部" value></el-option>
-            <el-option label="无线控制器" value="ac"></el-option>
-            <el-option label="中低端交换机" value="ml_switch"></el-option>
-            <el-option label="中低端路由器" value="ml_router"></el-option>
-            <el-option label="高端交换机" value="h_switch"></el-option>
-            <el-option label="高端路由器" value="h_router"></el-option>
-            <el-option label="安全产品" value="securitypro"></el-option>
-            <el-option label="无线产品" value="ap"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="测试站点">
-          <el-select
-            v-model="formInline.site"
-            placeholder="全部 (可输入)"
-            filterable
-            allow-create
-            default-first-option
-          >
-            <el-option label="全部" value></el-option>
-            <el-option label="SETMAC" value="SETMAC"></el-option>
-            <el-option label="基本测试" value="基本测试"></el-option>
-            <el-option label="基本测试1" value="基本测试1"></el-option>
-            <el-option label="查看烤机记录" value="查看烤机记录"></el-option>
-            <el-option label="查看烤机记录1" value="查看烤机记录1"></el-option>
-            <el-option label="下装主程序" value="下装主程序"></el-option>
-            <el-option label="总检" value="总检"></el-option>
-            <el-option label="连通" value="连通"></el-option>
-            <el-option label="OQC按单重检" value="OQC按单重检"></el-option>
-            <el-option label="下装生测程序" value="下装生测程序"></el-option>
-            <el-option label="吞吐测试" value="吞吐测试"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="测试结果">
-          <el-select v-model="formInline.result" placeholder="全部">
-            <el-option label="全部" value></el-option>
-            <el-option label="通过" value="PASS"></el-option>
-            <el-option label="失败" value="FAIL"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="测试时间">
-          <el-date-picker
-            v-model="formInline.dateRange"
-            type="datetimerange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="pickerOptions"
-          ></el-date-picker>
-        </el-form-item>
-      </div>
+      <el-row v-if="state.showAdvance">
+        <el-col :span="8" :xs="24" :sm="12" :lg="8" :xl="6">
+          <el-form-item label="MAC" prop="mac" :rules="rules.MAC">
+            <el-input v-model="formInline.mac" placeholder="请输入12位MAC" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" :xs="24" :sm="12" :lg="8" :xl="6">
+          <el-form-item label="产品型号">
+            <el-input v-model="formInline.serial"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" :xs="24" :sm="12" :lg="8" :xl="6">
+          <el-form-item label="产品类型">
+            <el-select v-model="formInline.type" placeholder="全部">
+              <el-option label="全部" value></el-option>
+              <el-option label="无线控制器" value="ac"></el-option>
+              <el-option label="中低端交换机" value="ml_switch"></el-option>
+              <el-option label="中低端路由器" value="ml_router"></el-option>
+              <el-option label="高端交换机" value="h_switch"></el-option>
+              <el-option label="高端路由器" value="h_router"></el-option>
+              <el-option label="安全产品" value="securitypro"></el-option>
+              <el-option label="无线产品" value="ap"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" :xs="24" :sm="12" :lg="8" :xl="6">
+          <el-form-item label="测试站点">
+            <el-select
+              v-model="formInline.site"
+              placeholder="全部 (可输入)"
+              filterable
+              allow-create
+              default-first-option
+            >
+              <el-option label="全部" value></el-option>
+              <el-option label="SETMAC" value="SETMAC"></el-option>
+              <el-option label="基本测试" value="基本测试"></el-option>
+              <el-option label="基本测试1" value="基本测试1"></el-option>
+              <el-option label="查看烤机记录" value="查看烤机记录"></el-option>
+              <el-option label="查看烤机记录1" value="查看烤机记录1"></el-option>
+              <el-option label="下装主程序" value="下装主程序"></el-option>
+              <el-option label="总检" value="总检"></el-option>
+              <el-option label="连通" value="连通"></el-option>
+              <el-option label="OQC按单重检" value="OQC按单重检"></el-option>
+              <el-option label="下装生测程序" value="下装生测程序"></el-option>
+              <el-option label="吞吐测试" value="吞吐测试"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" :xs="24" :sm="12" :lg="8" :xl="6">
+          <el-form-item label="测试结果">
+            <el-select v-model="formInline.result" placeholder="全部">
+              <el-option label="全部" value></el-option>
+              <el-option label="通过" value="PASS"></el-option>
+              <el-option label="失败" value="FAIL"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" :xs="24" :sm="18" :lg="12">
+          <el-form-item label="测试时间">
+            <el-date-picker
+              v-model="formInline.dateRange"
+              type="datetimerange"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions"
+            ></el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </transition>
   </el-form>
 </template>
@@ -161,12 +182,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const {
-            SN,
-            mac,
-            type,
-            site,
-            serial,
-            result,
+            SN, mac, type, site, serial, result,
           } = this.$data.formInline;
           let { dateRange } = this.$data.formInline;
           // fix dateRange is null
@@ -206,25 +222,39 @@ export default {
   margin-top: 22px;
   display: flex;
 }
+.demo-form-inline .simple-search .el-form-item {
+  white-space: nowrap;
+}
+.demo-form-inline .simple-search .el-button {
+  margin-left: 15px;
+}
 .demo-form-inline .simple-search .search-more {
   margin-left: auto;
   margin-right: 5px;
 }
 .demo-form-inline .simple-search .el-icon-arrow-right {
-  transition: transform .5s;
+  transition: transform 0.5s;
 }
 .demo-form-inline .simple-search .el-icon-arrow-right.is-active {
   transform: rotate(90deg);
 }
-.demo-form-inline .el-input {
-  width: 150px;
+.demo-form-inline .el-select,
+.demo-form-inline .el-range-editor{
+  width: 100%;
 }
-.demo-form-inline .el-select>.el-input {
-  width: 150px;
+.demo-form-inline .button-enter-active,
+.demo-form-inline .button-leave-active {
+  transition: all 1s;
 }
+
+.demo-form-inline .button-enter,
+.demo-form-inline .button-leave-to {
+  opacity: 0;
+}
+
 .demo-form-inline .advance-box-enter-active,
 .demo-form-inline .advance-box-leave-active {
-  transition: all .5s;
+  transition: all 0.5s;
   max-height: 300px;
   overflow: hidden;
 }
