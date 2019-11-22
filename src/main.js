@@ -5,6 +5,7 @@ import {
   Table, TableColumn, Form, FormItem, Input, Button, Option, Select, Message, Loading,
   DatePicker, TimePicker, Card,
   Tag,
+  Row, Col,
 } from 'element-ui';
 import App from './App.vue';
 import router from './router';
@@ -31,6 +32,8 @@ Vue.use(DropdownItem);
 Vue.use(Collapse);
 Vue.use(CollapseItem);
 Vue.use(Tag);
+Vue.use(Row);
+Vue.use(Col);
 
 Vue.use(Loading.directive);
 
